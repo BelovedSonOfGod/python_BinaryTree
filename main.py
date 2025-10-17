@@ -1,4 +1,5 @@
 from TreeNode import TreeNode
+from collections import deque
 
 class BinaryTree:
     def __init__(self,rootValue):
@@ -98,6 +99,33 @@ class BinaryTree:
         self.preOrder_recursively(listOfOrderValues,nodeToWalkBy.rightBranch)
 
         return listOfOrderValues
+    
+    def preOrder_WithLoops(self)->list:
+        myStack=deque()
+        listOfOrderValues=[]
+        nodeToWalkBy=self.root
+        myStack.appendleft(nodeToWalkBy)
+
+        while len(myStack)!=0:
+
+            currentNode=myStack.pop()
+            listOfOrderValues.append(nodeToWalkBy.value)
+
+            while nodeToWalkBy.rightBranch!=None:
+                nodeToWalkBy=nodeToWalkBy.rightBranch
+                myStack.appendleft(nodeToWalkBy)
+
+            nodeToWalkBy=currentNode
+            
+            while nodeToWalkBy.leftBranch!=None:
+                nodeToWalkBy=nodeToWalkBy.leftBranch
+                myStack.appendleft(nodeToWalkBy)
+
+
+
+        return listOfOrderValues
+
+        
 
 
 
@@ -119,17 +147,11 @@ if __name__=="__main__":
     print(myTree.root.leftBranch.value)
     print(myTree.root.rightBranch.value)
     preorderList=myTree.preOrder_recursively([],myTree.root)
-    inorder=myTree.inOrder_recursively([],myTree.root)
-    postOrder=myTree.postOrder_recursively([],myTree.root)
-    print(preorderList)
-    print(inorder)
-    print(postOrder)
+    inorderList=myTree.inOrder_recursively([],myTree.root)
+    postOrderList=myTree.postOrder_recursively([],myTree.root)
+    print(f"preorder with recursion {preorderList}")
+    print(f"inorder with recursion {inorderList}")
+    print(f"postorder with recursion {postOrderList}")
 
-
-
-
-
-
-
-
-        
+    preorderListLoops=myTree.preOrder_WithLoops()
+    print(f"preorder with loops {preorderListLoops}")
