@@ -101,6 +101,7 @@ class BinaryTree:
         return listOfOrderValues
     
     def preOrder_WithLoops(self)->list:
+        ##Using a stack because stacks simulate recursion
         myStack=deque()
         listOfOrderValues=[]
         nodeToWalkBy=self.root
@@ -108,19 +109,54 @@ class BinaryTree:
 
         while len(myStack)!=0:
 
-            currentNode=myStack.pop()
-            listOfOrderValues.append(nodeToWalkBy.value)
+            currentNode=myStack.popleft()
+            listOfOrderValues.append(currentNode.value)
 
-            while nodeToWalkBy.rightBranch!=None:
-                nodeToWalkBy=nodeToWalkBy.rightBranch
-                myStack.appendleft(nodeToWalkBy)
+            if  currentNode.rightBranch!=None: #right first so it gets out last and preorder order remains
+                myStack.appendleft(currentNode.rightBranch)
 
-            nodeToWalkBy=currentNode
+            if currentNode.leftBranch!=None:
+                myStack.appendleft(currentNode.leftBranch)
+#### This failed because I was looping all the branches, so I was revisiting nodes thus losing the sense of a tree:             
+#            nodeToWalkBy=currentNode
+
+#            while nodeToWalkBy.rightBranch!=None:
+#                nodeToWalkBy=nodeToWalkBy.rightBranch
+#                myStack.appendleft(nodeToWalkBy)
+#                boolean_AreThereChanges=True
+
+#            if boolean_AreThereChanges==True:
+#                nodeToWalkBy=currentNode
+
+#            boolean_AreThereChanges=False
+#            
+#            while nodeToWalkBy.leftBranch!=None:
+#                nodeToWalkBy=nodeToWalkBy.leftBranch
+#                myStack.appendleft(nodeToWalkBy)
+
+        return listOfOrderValues
+    
+
+    def BFS_iterative(self)->list:
+        listOfOrderValues=[]
+        ##Using a queue because first in first out as per level
+        myQueue=deque()
+        listOfOrderValues=[]
+        nodeToWalkBy=self.root
+        myQueue.append(nodeToWalkBy)
+
+        while len(myQueue)!=0:
+
+            currentNode=myQueue.popleft()
+            listOfOrderValues.append(currentNode.value)
+
+            if currentNode.leftBranch!=None:
+                myQueue.append(currentNode.leftBranch)
+
+            if  currentNode.rightBranch!=None: #right first so it gets out last and preorder order remains
+                myQueue.append(currentNode.rightBranch)
+
             
-            while nodeToWalkBy.leftBranch!=None:
-                nodeToWalkBy=nodeToWalkBy.leftBranch
-                myStack.appendleft(nodeToWalkBy)
-
 
 
         return listOfOrderValues
@@ -155,3 +191,6 @@ if __name__=="__main__":
 
     preorderListLoops=myTree.preOrder_WithLoops()
     print(f"preorder with loops {preorderListLoops}")
+
+    BFSiterative=myTree.BFS_iterative()
+    print(f"BFS with loops {BFSiterative}")
