@@ -194,3 +194,32 @@ if __name__=="__main__":
 
     BFSiterative=myTree.BFS_iterative()
     print(f"BFS with loops {BFSiterative}")
+
+
+    '''
+    Just for study:
+
+    In order
+    stack = []
+node = root
+while stack or node:
+    while node:
+        stack.append(node)
+        node = node.left
+    node = stack.pop()
+    result.append(node.value)        # <-- Aquí (después de recorrer izquierda)
+    node = node.right
+    
+
+    postorder
+
+    stack1 = [root]
+stack2 = []
+while stack1:
+    node = stack1.pop()
+    stack2.append(node)
+    if node.left:  stack1.append(node.left)
+    if node.right: stack1.append(node.right)
+# el resultado está en stack2 al revés
+result = [n.value for n in reversed(stack2)]
+    '''
